@@ -1,0 +1,28 @@
+﻿@model QuestionViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@using (Html.BeginForm("Submit", "Question", FormMethod.Post))
+{
+    @for (var a = 0; a < Model.inputQuestions.Count; a++)
+    {
+        @Html.HiddenFor(m => m.inputQuestions[a].Number)
+        @Html.HiddenFor(m => m.inputQuestions[a].Text)
+
+        <h5>@Model.inputQuestions[a].Number. @Model.inputQuestions[a].Text</h5>
+        @Html.ValidationMessageFor(model => model.inputQuestions[a].Answer, "", new { @class = "text-danger" })
+        <br />
+        @for (var b = 0; b < Model.inputQuestions[a].Choices.Count; b++)
+        {
+            @Html.HiddenFor(m => m.inputQuestions[a].Choices[b].Key)
+            @Html.HiddenFor(m => m.inputQuestions[a].Choices[b].Value)
+            @Html.RadioButtonFor(model => model.inputQuestions[a].Answer, Model.inputQuestions[a].Choices[b].Key)
+            <label>@Model.inputQuestions[a].Choices[b].Key. @Model.inputQuestions[a].Choices[b].Value</label>
+            <br />
+        }
+        <br />
+    }
+    <button type="submit" class="btn-primary">Submit Answer</button>
+}
